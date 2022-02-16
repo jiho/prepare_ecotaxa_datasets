@@ -1,0 +1,39 @@
+# EcoTaxa login info
+ecotaxa_user : 'your_email'
+ecotaxa_pass : 'your_password'
+
+# Base directory to store the data (including the images)
+base_dir : '/home/jiho/datasets/'
+
+# Dataset name (usually based on the instrument)
+# will be created as a sub directory of base_dir
+dataset : 'Test'
+
+# Numeric id of project to download
+# you should have appropriate access rights to it:
+# - either the project should be visible to all
+# - or you should be explicitly registered to it, as viewer at least
+proj_id : 185
+
+grouping:
+  # Path or URL of a taxonomic grouping file
+  # should have level0, level1, level2, etc. columns
+  # level0 is current EcoTaxa classif and level1, etc. are increasingly coarse regrouping
+  url : 'https://docs.google.com/spreadsheets/d/1_w3HAC1ofSDc6ipyMUAhlHv6J7OuCgNlZbnmro4Cw6A/edit#gid=1129062147'
+  # Grouping level to use (level1 or level2 or...)
+  level : 'level1'
+
+# Split into train, val, test split
+split_props:
+  val : 0.1
+  test : 0.1
+# NB: train will be deduced from those
+
+images:
+  # Define if images are grayscale (or colour if False)
+  grayscale : True
+  # Number of pixels to crop at the bottom
+  crop : 31
+  # List of useless native features to remove
+  useless_features : ['tag', 'x', 'y', 'bx', 'by', 'xstart', 'ystart']
+
