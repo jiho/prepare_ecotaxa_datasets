@@ -87,9 +87,8 @@ with ecotaxa_py_client.ApiClient(config) as client:
             ok = pbar.update(batch_size)
 
 # combine all batches in a single DataFrame
-df = pd.concat(objs_dfs)
+df = pd.concat(objs_dfs, ignore_index=True)
 df['txo.id'] = df['txo.id'].astype('int32')
-# TODO reset the index to avoid duplication
 
 # get all unique taxa ids
 taxo_ids = list(set(df['txo.id']))

@@ -23,8 +23,7 @@ img_dir = os.path.join(data_dir, 'imgs_raw')
 os.makedirs(img_dir, exist_ok=True)
 
 # read data from EcoTaxa
-df = read_table(os.path.join(data_dir, 'orig_extraction.parquet')).to_pandas().reset_index()
-# TODO remove the reset index once it has been fixed in the previous step
+df = read_table(os.path.join(data_dir, 'orig_extraction.parquet')).to_pandas()
 
 # detect image extension
 file,ext = os.path.splitext(df['img.file_name'][0])
