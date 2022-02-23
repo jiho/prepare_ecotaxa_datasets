@@ -26,11 +26,13 @@ groups = read_csv(url, col_types=cols()) %>%
 
 # add taxonomic grouping to extracted data
 df = left_join(df, groups, by=c("txo.display_name"="level0"))
-# remove objects which are not assigned at that level (ideally there should be very little to none)
-filter(df, is.na(level1))
 
 # choose grouping level
 df$taxon = df[[cfg$grouping$level]]
+# remove objects which are not assigned at that level
+# (ideally there should be very little to none)
+df = filter(df, !is.na(taxon))
+
 
 # recompute lineage to match the grouping level
 new_lineages = df %>%
