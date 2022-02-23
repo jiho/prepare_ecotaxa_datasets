@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 #
-# Read taxo grouping and split train/val/test
+# Read each input image, extract the largest object, and
 #
 # (c) 2022 Jean-Olivier Irisson, GNU General Public License v3
 
