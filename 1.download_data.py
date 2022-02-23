@@ -59,7 +59,8 @@ with ecotaxa_py_client.ApiClient(config) as client:
     # only validated
     filters = ProjectFilters(statusfilter="V")
     # get taxonomic name and image file name and all free fields
-    fields = 'txo.id,txo.display_name,img.file_name,' + ','.join(obj_fields)
+    fields = 'txo.id,txo.display_name,img.file_name,obj.latitude,obj.longitude,'+\
+      ','.join(obj_fields)
     
     # fetch one object to get the total number of objects to fetch
     objs = objects_instance.get_object_set(cfg['proj_id'], filters,
