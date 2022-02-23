@@ -74,10 +74,12 @@ df = df %>%
   left_join(new_lineages, by="taxon") %>%
   drop_na(taxon)
 
+message("Split into train, val, and test") # ----
 
 # split data into train, val, and test
 set.seed(1)
 df = df %>%
+  arrange(objid) %>%
   group_by(taxon) %>%
   mutate(set=sample(c(
     rep("val", times=n()*cfg$split_props$val),
