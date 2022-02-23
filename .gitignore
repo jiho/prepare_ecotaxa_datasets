@@ -4,3 +4,4 @@
 .Ruserdata
 config/*.yaml
 taxo/*.tsv
+__pycache__/
