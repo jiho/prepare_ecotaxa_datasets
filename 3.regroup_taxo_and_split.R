@@ -32,10 +32,12 @@ df = left_join(df, groups, by=c("txo.id"="id"))
 
 # choose grouping level
 df$taxon = df[[cfg$grouping$level]]
+n_before = nrow(df)
 # remove objects which are not assigned at that level
 # (ideally there should be very little to none)
 df = filter(df, !is.na(taxon))
-
+n_after = nrow(df)
+message("  removed ", n_before - n_after, " objects that were not assigned to a taxon")
 
 # recompute lineage to match the grouping level
 new_lineages = df %>%
