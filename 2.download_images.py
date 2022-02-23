@@ -19,7 +19,7 @@ with open(r'config.yaml') as config_file:
 
 # prepare storage
 data_dir = os.path.join(os.path.expanduser(cfg['base_dir']), cfg['dataset'])
-img_dir = os.path.join(data_dir, 'imgs_raw')
+img_dir = os.path.join(data_dir, 'orig_imgs')
 os.makedirs(img_dir, exist_ok=True)
 
 # read data from EcoTaxa
