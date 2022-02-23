@@ -22,6 +22,8 @@ from ecotaxa_py_client.api import objects_api
 from ecotaxa_py_client.api import projects_api
 from ecotaxa_py_client.model.project_filters import ProjectFilters
 
+from ecotaxa_py_client.api import samples_api
+
 from ecotaxa_py_client.api import taxonomy_tree_api
 from ecotaxa_py_client.model.taxon_model import TaxonModel
 
@@ -62,19 +64,27 @@ with ecotaxa_py_client.ApiClient(config) as client:
     # fetch one object to get the total number of objects to fetch
     objs = objects_instance.get_object_set(cfg['proj_id'], filters,
       fields=fields, window_start=0, window_size=1)
-    # fetch this in several batches
-    n_batches = 20
-    batch_size = int(objs['total_ids']/(n_batches-1))
 
+    # fetch per sample
+    samples_instance = samples_api.SamplesApi(client)
+    samples = samples_instance.samples_search(
+      project_ids=str(cfg['proj_id']),
+      id_pattern="%"
+    )
+    
     # prepare storage
     objs_dfs = []
 
     with tqdm(total=objs['total_ids']) as pbar:
-        for i in range(n_batches):
+        for sam in samples:
+            # update filters to add sampleid
+            filters.samples = str(sam['sampleid'])
+            
             # fetch a batch of objects
             objs = objects_instance.get_object_set(cfg['proj_id'], filters,
-              fields=fields, window_start=i*batch_size, window_size=batch_size)
-    
+              fields=fields)
+            n_fetched_objs = len(objs.details)
+            
             # format retrieved data as a DataFrame
             objs_df = pd.DataFrame(objs['details'], columns=fields.split(','))
             # add object id as an identifier
@@ -83,7 +93,7 @@ with ecotaxa_py_client.ApiClient(config) as client:
             # store with the previous batches
             objs_dfs.append(objs_df)
             # and update progress bar
-            ok = pbar.update(batch_size)
+            ok = pbar.update(n_fetched_objs)
 
 # combine all batches in a single DataFrame
 df = pd.concat(objs_dfs, ignore_index=True)
