@@ -56,7 +56,9 @@ df = df %>%
     ! (objid %in% features$objid)
   )
 # remove the existing features for those to avoid duplicates
-features = filter(features, objid %in% df$objid)
+if (nrow(features) > 0) {
+  features = filter(features, objid %in% df$objid)
+}
 message("  ", nrow(df), " images to process")
 
 message("Process images") # ----
