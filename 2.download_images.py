@@ -27,6 +27,7 @@ df = read_table(os.path.join(data_dir, 'orig_extraction.parquet')).to_pandas()
 
 # detect image extension
 file,ext = os.path.splitext(df['img.file_name'][0])
+# TODO extract file extension for each file, like in step 4.
 # name image according to internal object_id to ensure uniqueness
 df['dest_path'] = [os.path.join(img_dir, str(this_id)+ext) for this_id in df['objid']]
 
