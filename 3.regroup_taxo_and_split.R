@@ -26,7 +26,9 @@ groups = read_csv(url, col_types=cols()) %>%
   select(num_range("level", range=0:3, width=1))
 
 # add taxonomic grouping to extracted data
-df = left_join(df, groups, by=c("txo.display_name"="level0"))
+groups = groups %>%
+  select(id, num_range("level", range=0:5, width=1))
+df = left_join(df, groups, by=c("txo.id"="id"))
 
 # choose grouping level
 df$taxon = df[[cfg$grouping$level]]
