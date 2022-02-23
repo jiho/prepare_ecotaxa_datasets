@@ -20,7 +20,7 @@ message("Plot data map") # ----
 # read extracted data
 df = read_parquet(file.path(data_dir, "orig_extraction.parquet"))
 
-world = read_csv("gshhg_world_c.csv")
+world = read_csv("gshhg_world_c.csv", col_types=cols())
 
 p <- df %>% select(lat=obj.latitude, lon=obj.longitude) %>%
   distinct() %>%
