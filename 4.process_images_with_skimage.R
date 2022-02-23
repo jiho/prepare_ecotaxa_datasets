@@ -64,7 +64,7 @@ message("  ", nrow(df), " images to process")
 message("Process images") # ----
 
 # make destination directories
-file.path(data_dir, unique(df$taxon)) %>% walk(dir.create, showWarnings=FALSE)
+file.path(data_dir, "imgs", unique(df$taxon)) %>% walk(dir.create, showWarnings=FALSE)
 
 # process images, in parallel
 sk = reticulate::import_from_path("lib_skimage")
