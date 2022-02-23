@@ -19,7 +19,8 @@ data_dir = file.path(cfg$base_dir, cfg$dataset)
 df = read_parquet(file.path(data_dir, "orig_extraction.parquet"))
 
 # read taxonomic grouping
-url = str_replace(cfg$grouping$url, "/edit(#|\\?){0,1}", "/export?format=csv&")
+file_id = scan(str_c("taxo/taxo_", str_to_lower(cfg$dataset), ".gdsheet"), what="character", quiet=TRUE)[6]
+url = str_c("https://docs.google.com/spreadsheets/d/", file_id, "/export?format=csv")
 groups = read_csv(url, col_types=cols()) %>%
   select(num_range("level", range=0:3, width=1))
 
