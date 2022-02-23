@@ -49,3 +49,6 @@ for i in tqdm(range(df.shape[0])):
         url='https://ecotaxa.obs-vlfr.fr/vault/'+df['img.file_name'][i],
         filename=df['dest_path'][i]
       )
+
+n_imgs = len(os.listdir(img_dir))
+print('  {} images in {}'.format(n_imgs, img_dir))
