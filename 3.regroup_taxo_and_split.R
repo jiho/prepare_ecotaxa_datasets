@@ -16,14 +16,31 @@ message("### Processing ", cfg$dataset, " ###")
 # define i/o directory
 data_dir = file.path(cfg$base_dir, cfg$dataset)
 
-# read extracted data
-df = read_parquet(file.path(data_dir, "orig_extraction.parquet"))
+message("Define taxo grouping") # ----
+
+# read the taxo inventory
+taxo = read_tsv(file.path(data_dir, "orig_inventory.tsv"), col_types=cols())
 
 # read taxonomic grouping
 file_id = scan(str_c("taxo/taxo_", str_to_lower(cfg$dataset), ".gdsheet"), what="character", quiet=TRUE)[6]
 url = str_c("https://docs.google.com/spreadsheets/d/", file_id, "/export?format=csv")
-groups = read_csv(url, col_types=cols()) %>%
-  select(num_range("level", range=0:3, width=1))
+groups = read_csv(url, col_types=cols())
+
+# merge the grouping with the (potentially new) inventory
+new_groups = left_join(taxo, select(groups, -nb), by=c("lineage", "id", "level0"))
+write_tsv(
+  new_groups,
+  file=str_c("taxo/taxo_", str_to_lower(cfg$dataset), "_base.tsv"),
+  na=""
+)
+
+## Now integrate the .tsv file in the gdsheet and define the groups
+## If this is done, the process can continue
+
+message("Regroup taxa") # ----
+
+# read extracted data
+df = read_parquet(file.path(data_dir, "orig_extraction.parquet"))
 
 # add taxonomic grouping to extracted data
 groups = groups %>%
