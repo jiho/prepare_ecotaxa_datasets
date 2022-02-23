@@ -4,13 +4,13 @@
 #
 # (c) 2022 Jean-Olivier Irisson, GNU General Public License v3
 
-library("yaml")
-library("tidyverse", warn.conflicts=FALSE)
-library("arrow")
+suppressMessages(library("yaml"))
+suppressMessages(library("tidyverse", warn.conflicts=FALSE))
+suppressMessages(library("arrow", warn.conflicts=FALSE))
 
 # read config
 cfg = read_yaml("config.yaml")
-message("### Finalise ", cfg$dataset, " ###")
+message("### Finalise ", cfg$dataset)
 
 # define i/o directory
 data_dir = file.path(cfg$base_dir, cfg$dataset)

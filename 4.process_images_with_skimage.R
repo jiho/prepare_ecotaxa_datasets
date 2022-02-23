@@ -4,15 +4,15 @@
 #
 # (c) 2022 Jean-Olivier Irisson, GNU General Public License v3
 
-library("yaml")
-library("tidyverse", warn.conflicts=FALSE)
-library("arrow")
-library("fs")
-library("parallel")
+suppressMessages(library("yaml"))
+suppressMessages(library("tidyverse", warn.conflicts=FALSE))
+suppressMessages(library("arrow", warn.conflicts=FALSE))
+suppressMessages(library("fs"))
+suppressMessages(library("parallel"))
 
 # read config
 cfg = read_yaml("config.yaml")
-message("### Processing ", cfg$dataset, " ###")
+message("### Process images for ", cfg$dataset)
 
 # define i/o directory
 data_dir = file.path(cfg$base_dir, cfg$dataset)
@@ -61,7 +61,7 @@ if (nrow(features) > 0) {
 }
 message("  ", nrow(df), " images to process")
 
-message("Process images") # ----
+message("Process images (be patient)") # ----
 
 # make destination directories
 file.path(data_dir, "imgs", unique(df$taxon)) %>% walk(dir.create, showWarnings=FALSE)

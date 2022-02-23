@@ -30,8 +30,7 @@ from ecotaxa_py_client.model.taxon_model import TaxonModel
 # read config
 with open(r'config.yaml') as config_file:
     cfg = yaml.safe_load(config_file)
-print('### Processing {} ###'.format(cfg['dataset']))
-
+print('### Download data for {}'.format(cfg['dataset']))
 
 # prepare storage
 data_dir = os.path.join(os.path.expanduser(cfg['base_dir']), cfg['dataset'])
@@ -119,6 +118,7 @@ df = df.join(taxo, on='txo.id')
 inventory = df.groupby(['lineage', 'txo.id', 'txo.display_name']).size().reset_index(name='nb')
 inventory = inventory.rename(columns={'txo.id':'id', 'txo.display_name':'level0'})
 
+print('  downloaded {} objects. Saving them'.format(df.shape[0]))
 
 # write to disk
 pq.write_table(
