@@ -4,3 +4,4 @@
 .Ruserdata
 config/*.yaml
 config.yaml
+taxo/*.tsv
