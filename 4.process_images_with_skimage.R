@@ -38,7 +38,7 @@ if (file_exists(skfeatures_file)) {
 df = mutate(df,
   ext=tools::file_ext(df$img.file_name),
   source=file.path(data_dir, "orig_imgs", str_c(objid, ".", ext)),
-  dest=file.path(data_dir, "imgs", taxon, str_c(objid, ".", ext)),
+  dest=file.path(data_dir, "imgs", taxon, str_c(objid, ".png")),
 )
 
 # test for the existence of all original images
