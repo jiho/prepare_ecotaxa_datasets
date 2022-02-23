@@ -69,5 +69,5 @@ df %>%
 df %>%
   select(objid, starts_with("fre.")) %>%
   rename_with(~str_replace(., fixed("fre."), "")) %>%
-  select(-all_of(cfg$images$useless_features)) %>%
+  select(-any_of(cfg$images$useless_features)) %>%
   write_csv(file.path(data_dir, "features_native.csv.gz"))
