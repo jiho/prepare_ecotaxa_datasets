@@ -16,6 +16,7 @@ from pyarrow.parquet import read_table
 # read config
 with open(r'config.yaml') as config_file:
   cfg = yaml.safe_load(config_file)
+print('### Processing {} ###'.format(cfg['dataset']))
 
 # prepare storage
 data_dir = os.path.join(os.path.expanduser(cfg['base_dir']), cfg['dataset'])

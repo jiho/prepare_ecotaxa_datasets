@@ -11,6 +11,7 @@ library("fs")
 
 # read config
 cfg = read_yaml("config.yaml")
+message("### Processing ", cfg$dataset, " ###")
 
 # define i/o directory
 data_dir = file.path(cfg$base_dir, cfg$dataset)
