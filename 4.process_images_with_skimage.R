@@ -70,7 +70,7 @@ file.path(data_dir, "imgs", unique(df$taxon)) %>% walk(dir.create, showWarnings=
 sk = reticulate::import_from_path("lib_skimage")
 
 # split the data set in chunks to be processed
-chunk = 5000
+chunk = 1000
 n_cores = 40
 n = nrow(df)
 dfl = split(df, rep(1:ceiling(n/chunk),each=chunk)[1:n])
