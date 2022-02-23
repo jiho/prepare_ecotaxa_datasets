@@ -9,7 +9,6 @@ import yaml
 
 from tqdm import tqdm
 import pandas as pd
-from pyarrow.feather import write_feather
 import pyarrow as pa
 from pyarrow import parquet as pq
 
