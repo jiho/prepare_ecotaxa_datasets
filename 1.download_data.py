@@ -100,7 +100,9 @@ with ecotaxa_py_client.ApiClient(config) as client:
 
 # combine all batches in a single DataFrame
 df = pd.concat(objs_dfs, ignore_index=True)
+# fix id column types
 df['txo.id'] = df['txo.id'].astype('int32')
+df['objid'] = df['objid'].astype('int32')
 
 # get all unique taxa ids
 taxo_ids = list(set(df['txo.id']))
