@@ -15,7 +15,7 @@ from pyarrow.parquet import read_table
 
 # read config
 with open(r'config.yaml') as config_file:
-  cfg = yaml.safe_load(config_file)
+    cfg = yaml.safe_load(config_file)
 print('### Download images for {}'.format(cfg['dataset']))
 
 # prepare storage
