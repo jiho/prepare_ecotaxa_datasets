@@ -27,7 +27,7 @@ p <- df %>% select(lat=obj.latitude, lon=obj.longitude) %>%
   ggplot(aes(x=lon, y=lat)) +
     coord_quickmap() +
     geom_polygon(data=world, fill="white") +
-    geom_point(na.rm=TRUE) +
+    geom_point(na.rm=TRUE, size=0.25) +
     scale_x_continuous(expand=c(0,0)) +
     scale_y_continuous(expand=c(0,0))
 ggsave(file=file.path(data_dir, "map.png"), plot=p, width=9, heigh=5)
