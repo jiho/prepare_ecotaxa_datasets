@@ -48,7 +48,7 @@ if (missing_imgs > 0) {
 }
 
 # define which images to process
-df = df %>%
+dfp = df %>%
   filter(
     # either the processed image is missing
     ! file.exists(dest) |
@@ -59,12 +59,12 @@ df = df %>%
 if (nrow(features) > 0) {
   features = filter(features, objid %in% df$objid)
 }
-message("  ", nrow(df), " images to process")
+message("  ", nrow(dfp), " images to process")
 
 message("Process images (be patient)") # ----
 
 # make destination directories
-file.path(data_dir, "imgs", unique(df$taxon)) %>% walk(dir.create, showWarnings=FALSE, recursive=TRUE)
+file.path(data_dir, "imgs", unique(dfp$taxon)) %>% walk(dir.create, showWarnings=FALSE, recursive=TRUE)
 
 # process images, in parallel
 sk = reticulate::import_from_path("lib_skimage")
@@ -72,8 +72,8 @@ sk = reticulate::import_from_path("lib_skimage")
 # split the data set in chunks to be processed
 chunk = 1000
 n_cores = 40
-n = nrow(df)
-dfl = split(df, rep(1:ceiling(n/chunk),each=chunk)[1:n])
+n = nrow(dfp)
+dfl = split(dfp, rep(1:ceiling(n/chunk),each=chunk)[1:n])
 # and process them in parallel
 props = mclapply(dfl, function(x) {sk$process_images(x, cfg)}, mc.cores=n_cores)
 # then get the info back
