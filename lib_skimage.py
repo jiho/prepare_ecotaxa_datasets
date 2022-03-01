@@ -1,5 +1,6 @@
 from skimage import io
 from skimage import measure
+from skimage import morphology as morph
 import numpy as np
 import pandas as pd
 
@@ -19,13 +20,26 @@ def process_image(source, dest, cfg):
         height = img.shape[0]
         img = img[0:(height-cfg['images']['crop']),:]
         # TODO generalise to cropping all sides Cf ecotaxa_ML_template
+    
+    if cfg['images']['decorner']:
+        # white out the corners (very dark parts)
+        img = np.where(img < 20, 255, img)
 
     # invert image (makes it easier to write it afterwards)
     img = 255 - img
     # TODO make this optional or think about what it means
 
-    # threshold it and detect particles
-    img_thresholded = img > 4
+    # threshold it
+    img_thresholded = img > cfg['images']['threshold']
+
+    if cfg['images']['dilate_erode'] > 0:
+        # dilate and erode to reconnect thin pieces and stay close to the actual border of the object
+        img_thresholded = morph.binary_dilation(img_thresholded,
+          morph.disk(cfg['images']['dilate_erode']))
+        img_thresholded = morph.binary_erosion(img_thresholded,
+          morph.disk(cfg['images']['dilate_erode']))
+
+    # detect particles
     img_labelled = measure.label(img_thresholded, background=False, connectivity=2)
 
     # measure particles and keep only the largest one

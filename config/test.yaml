@@ -34,6 +34,11 @@ images:
   grayscale : True
   # Number of pixels to crop at the bottom
   crop : 31
+  # Whether to remove corners (remove all very dark parts)
+  decorner: False
+  # Thresholding parameters
+  threshold: 4     # grey level (after inversion, in [0;255])
+  dilate_erode: 0  # amount of pixels for dilation/erosion
   # List of useless native features to remove
   useless_features : ['tag', 'x', 'y', 'bx', 'by', 'xstart', 'ystart']
 
