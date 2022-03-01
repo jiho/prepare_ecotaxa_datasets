@@ -78,8 +78,7 @@ dfl = split(df, rep(1:ceiling(n/chunk),each=chunk)[1:n])
 props = mclapply(dfl, function(x) {sk$process_images(x, cfg)}, mc.cores=n_cores)
 # then get the info back
 props = do.call(bind_rows, props) %>%
-  mutate(objid=df$objid) %>%
-  select(objid, everything())
+  mutate(objid=dfp$objid, .before=1)
 features = bind_rows(features, props) %>%
   arrange(objid)
 
