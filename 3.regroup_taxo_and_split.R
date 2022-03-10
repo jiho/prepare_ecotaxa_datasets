@@ -62,11 +62,17 @@ new_lineages = df %>%
   # find common path to current taxon
   summarise(lineage=path_common(unique(lineage))) %>%
   # if lineage does not match taxon, go one up and add the taxon name
-  mutate(lineage=ifelse(
-    path_file(lineage) == taxon,
-    lineage,
-    str_c(path_dir(lineage), "/", taxon)
-  ))
+  mutate(
+    # remove parent
+    taxon_wo_parent=str_replace(taxon, "<(.*)$", ""),
+    taxon_parent_child=str_replace(taxon, "(.*)<(.*)$", "\\2/\\1"),
+    # recompute lineage
+    lineage=ifelse(
+      path_file(lineage) == taxon_wo_parent,
+      lineage,
+      str_c(path_dir(lineage), "/", taxon_parent_child)
+    ) %>% str_replace("//", "/")
+  )
 
 # clean up taxonomy-related columns
 df = df %>%
