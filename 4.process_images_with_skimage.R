@@ -63,24 +63,26 @@ message("  ", nrow(dfp), " images to process")
 
 message("Process images (be patient)") # ----
 
-# make destination directories
-file.path(data_dir, "imgs", unique(dfp$taxon)) %>% walk(dir.create, showWarnings=FALSE, recursive=TRUE)
+if (nrow(dfp) > 0) {
+  # make destination directories
+  file.path(data_dir, "imgs", unique(dfp$taxon)) %>% walk(dir.create, showWarnings=FALSE, recursive=TRUE)
 
-# process images, in parallel
-sk = reticulate::import_from_path("lib_skimage")
+  # process images, in parallel
+  sk = reticulate::import_from_path("lib_skimage")
 
-# split the data set in chunks to be processed
-chunk = 1000
-n_cores = 40
-n = nrow(dfp)
-dfl = split(dfp, rep(1:ceiling(n/chunk),each=chunk)[1:n])
-# and process them in parallel
-props = mclapply(dfl, function(x) {sk$process_images(x, cfg)}, mc.cores=n_cores)
-# then get the info back
-props = do.call(bind_rows, props) %>%
-  mutate(objid=dfp$objid, .before=1)
-features = bind_rows(features, props) %>%
-  arrange(objid)
+  # split the data set in chunks to be processed
+  chunk = 1000
+  n_cores = 40
+  n = nrow(dfp)
+  dfl = split(dfp, rep(1:ceiling(n/chunk),each=chunk)[1:n])
+  # and process them in parallel
+  props = mclapply(dfl, function(x) {sk$process_images(x, cfg)}, mc.cores=n_cores)
+  # then get the info back
+  props = do.call(bind_rows, props) %>%
+    mutate(objid=dfp$objid, .before=1)
+  features = bind_rows(features, props) %>%
+    arrange(objid)
+}
 
 message("Save data and cleanup") # ----
 
