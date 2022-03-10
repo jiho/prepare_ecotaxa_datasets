@@ -27,7 +27,7 @@ url = str_c("https://docs.google.com/spreadsheets/d/", file_id, "/export?format=
 groups = read_csv(url, col_types=cols())
 
 # merge the grouping with the (potentially new) inventory
-new_groups = left_join(taxo, select(groups, -nb), by=c("lineage", "id", "level0"))
+new_groups = left_join(taxo, select(groups, -n0), by=c("lineage", "id", "level0"))
 write_tsv(
   new_groups,
   file=str_c("taxo/taxo_", str_to_lower(cfg$dataset), "_base.tsv"),

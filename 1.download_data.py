@@ -118,7 +118,7 @@ taxo = pd.DataFrame({'lineage': lineages}, index=taxo_ids)
 df = df.join(taxo, on='txo.id')
 
 # compute number of examples per class
-inventory = df.groupby(['lineage', 'txo.id', 'txo.display_name']).size().reset_index(name='nb')
+inventory = df.groupby(['lineage', 'txo.id', 'txo.display_name']).size().reset_index(name='n0')
 inventory = inventory.rename(columns={'txo.id':'id', 'txo.display_name':'level0'})
 
 print('  downloaded {} objects. Saving them'.format(df.shape[0]))
