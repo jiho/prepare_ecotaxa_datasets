@@ -31,7 +31,7 @@ skfeatures_file = file.path(data_dir, 'features_skimage.csv.gz')
 if (file_exists(skfeatures_file)) {
   features = read_csv(skfeatures_file, col_types=cols())
 } else {
-  features = data.frame() #NB: not tibble, for compatibility below
+  features = data.frame() # NB: not tibble, for compatibility below
 }
 
 # extract file extension and compute file paths
