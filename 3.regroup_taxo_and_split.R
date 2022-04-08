@@ -44,7 +44,7 @@ df = read_parquet(file.path(data_dir, "orig_extraction.parquet"))
 
 # add taxonomic grouping to extracted data
 groups = groups %>%
-  select(id, num_range("level", range=0:5, width=1))
+  select(id, starts_with("level"))
 df = left_join(df, groups, by=c("txo.id"="id"))
 
 # choose grouping level
