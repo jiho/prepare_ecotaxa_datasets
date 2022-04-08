@@ -81,9 +81,13 @@ def process_image(source, dest, cfg):
     # features = features.append(largest_props, verify_integrity=True)
     # NB: prevent duplicate indexes
 
-    # extract the particle
-    part = regions[particle_label-1].intensity_image
-    # NB: the non particle region is marked black
+    if cfg['images']['save_particle']:
+        # extract the particle
+        part = regions[particle_label-1].intensity_image
+        # NB: the non particle region is marked black
+    else:
+        # save the whole (cropped) image
+        part = img
     # re-invert it
     part = 255 - part
     # and save it as an image

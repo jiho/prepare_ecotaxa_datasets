@@ -39,6 +39,9 @@ images:
   # Thresholding parameters
   threshold: 4     # grey level (after inversion, in [0;255])
   dilate_erode: 0  # amount of pixels for dilation/erosion
+  # Save only the thresholded particle;
+  # otherwise saves the (possibly cropped) image
+  save_particle: True
   # List of useless native features to remove
   useless_features : ['tag', 'x', 'y', 'bx', 'by', 'xstart', 'ystart']
 
