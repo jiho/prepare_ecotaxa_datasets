@@ -21,8 +21,8 @@ message("Define images to process") # ----
 
 # read extracted data and the regrouped taxon name
 df = left_join(
-    read_parquet(file.path(data_dir, "orig_extraction.parquet"), col_select=c("objid", "img.file_name")),
     read_csv(file.path(data_dir, "taxa.csv.gz"), col_select=c("objid","taxon"), col_types=cols()),
+    read_parquet(file.path(data_dir, "orig_extraction.parquet"), col_select=c("objid", "img.file_name")),
     by="objid"
   )
 
