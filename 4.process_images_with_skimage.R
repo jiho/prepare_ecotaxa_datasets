@@ -84,6 +84,9 @@ if (nrow(dfp) > 0) {
     arrange(objid)
 }
 
+dups <- sum(duplicated(features$objid))
+if (dups > 0) { warning(dup, " scikit features are duplicated") }
+
 message("Save data and cleanup") # ----
 
 # save the features
