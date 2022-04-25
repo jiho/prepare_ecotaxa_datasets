@@ -96,3 +96,8 @@ write_csv(features, file=skfeatures_file)
 all_imgs <- system2("find", str_c(data_dir, "/imgs/ -name *.png "), stdout=TRUE)
 extra_imgs = all_imgs[!all_imgs %in% df$dest]
 unlink(extra_imgs)
+
+
+message("  ", nrow(df), " objects")
+message("  ", nrow(features), " scikit feature vectors")
+message("  ", length(all_imgs) - length(extra_imgs), " images in ", file.path(data_dir, "imgs"))
