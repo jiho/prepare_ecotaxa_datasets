@@ -90,6 +90,6 @@ message("Save data and cleanup") # ----
 write_csv(features, file=skfeatures_file)
 
 # remove extra images
-all_imgs = list.files(file.path(data_dir, "imgs"), full.names=TRUE, recursive=TRUE)
+all_imgs <- system2("find", str_c(data_dir, "/imgs/ -name *.png "), stdout=TRUE)
 extra_imgs = all_imgs[!all_imgs %in% df$dest]
 unlink(extra_imgs)
